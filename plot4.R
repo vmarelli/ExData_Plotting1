@@ -6,9 +6,7 @@ getwd()
 
 
 # setting working directory!! I don't know how to get the directory of the .R, could you help me?
-
-setwd("~/ExData_Plotting1/Project1")
-
+setwd("~/GitHub/ExData_Plotting1")
 
 file<-paste('Data/household_power_consumption.txt')
 
@@ -57,6 +55,6 @@ plot(df_data$fulldate,df_data$Sub_metering_3, type='l', xlab="",ylab='',xaxt='n'
 legend("topright",bty = "n",lty = c(1, 1, 1),col = c("black","blue", "red"), legend = c("Sub_metering_1","Sub_metering_2", "Sub_metering_3"))
 
 
-plot(df_data$fulldate,df_data$Global_reactive_power, type='l', xlab="datetime",ylab='Global Reactive Power (kilowatts)')
+plot(df_data$fulldate,df_data$Global_reactive_power, type='l', xlab="datetime",ylab='Global_Reactive_Power (kilowatts)')
 
 dev.off()
