@@ -16,20 +16,22 @@ df_dat<-read.table(file, header=TRUE, sep=';',dec='.', na.strings=c("NA", "-", "
 
 #transform the date and time into one variable! 
 
-df_dat$fulldate<-as.character(paste(df_dat$Date, df_dat$Time))
+df_dat$datetime<-as.character(paste(df_dat$Date, df_dat$Time))
 
-df_dat$fulldate<-as.POSIXlt(df_dat$fulldate, format = "%d/%m/%Y %H:%M:%S")
+df_dat$datetime<-as.POSIXlt(df_dat$datetime, format = "%d/%m/%Y %H:%M:%S")
 
 #select the timespan used
 
-df_data<-df_dat[df_dat$fulldate>="2007-02-01 00:00:00" & df_dat$fulldate<="2007-02-03 00:00:00",]
+df_data<-df_dat[df_dat$datetime>="2007-02-01 00:00:00" & df_dat$datetime<="2007-02-03 00:00:00",]
 
 # my days are in French ...
 
-df_data$DoW<-weekdays(df_data$fulldate)
+df_data$DoW<-weekdays(df_data$datetime)
 
 df_data$DoW<-as.factor(df_data$DoW)
 
+
+attach(df_data)
 
 #Save the pNG file
 
@@ -38,23 +40,25 @@ png('Plot4.png',bg = "transparent")
 
 par(mfrow = c(2, 2))
 
-plot(df_data$fulldate,df_data$Global_active_power, type='l', xlab="",ylab='Global Active Power (kilowatts)')
+plot(df_data$datetime,df_data$Global_active_power, type='l', xlab="",ylab='Global Active Power (kilowatts)')
 
 
-plot(df_data$fulldate,df_data$Voltage, type='l', xlab="datetime",ylab='Voltage')
+plot(datetime,df_data$Voltage, type='l',ylab='Voltage')
 
 
-plot(df_data$fulldate,df_data$Sub_metering_1, type='l', xlab="",ylab='Energy Sub Metering')
+plot(df_data$datetime,df_data$Sub_metering_1, type='l', xlab="",ylab='Energy Sub Metering')
 par(new=T)
 
-plot(df_data$fulldate,df_data$Sub_metering_2, type='l', xlab="",ylab='',xaxt='n',yaxt='n',ylim=c(0,40),col='red')
+plot(df_data$datetime,df_data$Sub_metering_2, type='l', xlab="",ylab='',xaxt='n',yaxt='n',ylim=c(0,40),col='red')
 par(new=T)
 
-plot(df_data$fulldate,df_data$Sub_metering_3, type='l', xlab="",ylab='',xaxt='n',yaxt='n',ylim=c(0,40),col='blue')
+plot(df_data$datetime,df_data$Sub_metering_3, type='l', xlab="",ylab='',xaxt='n',yaxt='n',ylim=c(0,40),col='blue')
 
 legend("topright",bty = "n",lty = c(1, 1, 1),col = c("black","blue", "red"), legend = c("Sub_metering_1","Sub_metering_2", "Sub_metering_3"))
 
 
-plot(df_data$fulldate,df_data$Global_reactive_power, type='l', xlab="datetime",ylab='Global_Reactive_Power (kilowatts)')
+plot(datetime,Global_reactive_power, type='l',ylab='Global_Reactive_Power (kilowatts)')
 
 dev.off()
+
+detach(df_data)

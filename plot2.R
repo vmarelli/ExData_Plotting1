@@ -16,19 +16,20 @@ file<-paste('Data/household_power_consumption.txt')
 #don't forget to remove text into num!!! 
 df_dat<-read.table(file, header=TRUE, sep=';',dec='.', na.strings=c("NA", "-", "?"))
 
+
 #transform the date and time into one variable! 
 
-df_dat$fulldate<-as.character(paste(df_dat$Date, df_dat$Time))
+df_dat$datetime<-as.character(paste(df_dat$Date, df_dat$Time))
 
-df_dat$fulldate<-as.POSIXlt(df_dat$fulldate, format = "%d/%m/%Y %H:%M:%S")
+df_dat$datetime<-as.POSIXlt(df_dat$datetime, format = "%d/%m/%Y %H:%M:%S")
 
 #select the timespan used
 
-df_data<-df_dat[df_dat$fulldate>="2007-02-01 00:00:00" & df_dat$fulldate<="2007-02-03 00:00:00",]
+df_data<-df_dat[df_dat$datetime>="2007-02-01 00:00:00" & df_dat$datetime<="2007-02-03 00:00:00",]
 
 # my days are in French ...
 
-df_data$DoW<-weekdays(df_data$fulldate)
+df_data$DoW<-weekdays(df_data$datetime)
 
 df_data$DoW<-as.factor(df_data$DoW)
 
@@ -39,6 +40,7 @@ df_data$DoW<-as.factor(df_data$DoW)
 png('Plot2.png',bg = "transparent")
 
 
-plot(df_data$fulldate,df_data$Global_active_power, type='l', xlab="",ylab='Global Active Power (kilowatts)')
+plot(df_data$datetime,df_data$Global_active_power, type='l', xlab="",ylab='Global Active Power (kilowatts)')
 
 dev.off()
+
